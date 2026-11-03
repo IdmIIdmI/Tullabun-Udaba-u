@@ -5,192 +5,102 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#07152e">
-<title>تحدي الطفل ألفا - KP2027</title>
+<title>KP2027 - تحدي الطفل ألفا</title>
 
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;font-family:Arial,sans-serif;color:white;
- overflow:hidden;background:#07152e;user-select:none
-}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{font-family:Arial,sans-serif;color:white;background:#07152e;user-select:none}
 button{font:inherit;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.45;cursor:not-allowed}
-#app{width:100vw;height:100dvh;position:relative;overflow:hidden}
+button:disabled{opacity:.4}
+#app{width:100%;height:100dvh;position:relative;overflow:hidden}
 #world{position:absolute;inset:0}
 #world.m1{background:linear-gradient(#5bc5ed,#d9f7ff 55%,#8bcbe8)}
 #world.m2{background:radial-gradient(ellipse at 50% 100%,#263c83,#020515)}
 #world.m3{background:linear-gradient(#087fa4,#005477 60%,#00334f)}
 #world.m4{background:linear-gradient(#392b85,#a77ee7 36%,#e5baff 65%,#55c9ba)}
 #decoration{position:absolute;inset:0;pointer-events:none}
-.m1decor{
- background-image:radial-gradient(#fff 2px,transparent 3px);
- background-size:43px 43px;opacity:.7;
- animation:snowfall 9s linear infinite
-}
-.m2decor{
- background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),
- radial-gradient(2px 2px at 100px 120px,#8beaff,transparent);
- background-size:450px 300px;animation:stars 12s linear infinite
-}
-.m3decor{
- background-image:radial-gradient(ellipse at 20% 30%,#ffffff22 0 2px,transparent 4px);
- background-size:100px 130px;animation:bubbles 8s linear infinite
-}
-.m4decor{
- background-image:radial-gradient(circle at 15% 18%,#fff8c8 0 2px,transparent 4px);
- background-size:300px 200px
-}
-@keyframes snowfall{to{background-position:0 300px}}
+.m1decor{background-image:radial-gradient(#fff 2px,transparent 3px);background-size:43px 43px;animation:snow 9s linear infinite}
+.m2decor{background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 100px 120px,#8beaff,transparent);background-size:450px 300px;animation:stars 12s linear infinite}
+.m3decor{background-image:radial-gradient(ellipse at 20% 30%,#ffffff22 0 2px,transparent 4px);background-size:100px 130px;animation:bubbles 8s linear infinite}
+.m4decor{background-image:radial-gradient(circle at 15% 18%,#fff8c8 0 2px,transparent 4px);background-size:300px 200px}
+@keyframes snow{to{background-position:0 300px}}
 @keyframes stars{to{transform:translateY(300px)}}
 @keyframes bubbles{to{background-position:0 -300px}}
 
-header{
- position:relative;z-index:2;text-align:center;
- padding:8px 58px 4px;text-shadow:0 2px 5px #0005
-}
-header h1{margin:0;font-size:clamp(19px,4vw,32px)}
-#subtitle{font-weight:bold;font-size:12px;margin-top:3px}
-#sound{
- position:absolute;right:8px;top:8px;z-index:15;
- border:2px solid #55dcff;border-radius:12px;
- padding:7px 10px;background:#fff;color:#123
-}
-.panel{
- position:relative;z-index:3;width:min(760px,95vw);
- max-height:84dvh;overflow:auto;margin:10px auto;padding:15px;
- text-align:center;border-radius:22px;
- background:linear-gradient(145deg,#fffffffa,#e1f6fffa);
- color:#103455;border:2px solid #fff;
- box-shadow:0 10px 30px #001d3c55
-}
-h2{margin:8px 0}
-.primary{
- background:linear-gradient(135deg,#fff07a,#ffad36);
- color:#4a2c00;padding:12px 20px;border:2px solid #fff4b0;
- border-radius:25px;margin:6px;box-shadow:0 4px 0 #bd6d16
-}
-.secondary{
- background:#d7f3ff;color:#12466b;
- border:2px solid #7bc8e9;padding:10px 16px;
- border-radius:20px;margin:6px
-}
-#menu,#characterSelect,#game,#quiz,#missionWin,#finalWin{
- display:none;position:relative;z-index:2
-}
-#menu{display:block}
-.missionCards{
- display:grid;grid-template-columns:repeat(2,1fr);
- gap:10px;margin:14px 0
-}
-.missionCard{
- padding:12px 8px;border-radius:16px;
- border:2px solid #8bcce8;
- background:linear-gradient(150deg,#fff,#d8f5ff);
- color:#164466;min-width:0
-}
-.missionCard span{display:block;font-size:45px}
-.missionCard b{display:block;margin-top:5px}
-.missionCard small{font-size:11px}
+header{position:relative;z-index:2;text-align:center;padding:8px 55px 4px;text-shadow:0 2px 5px #0005}
+header h1{margin:0;font-size:clamp(18px,4vw,30px)}
+#subtitle{font-size:11px;margin-top:3px;font-weight:bold}
+#sound{position:absolute;right:8px;top:8px;z-index:40;border:2px solid #55dcff;border-radius:12px;padding:7px 9px;background:#fff;color:#123}
 
-#characterList{display:grid;gap:10px;margin:12px auto;max-width:300px}
-.character{
- background:#e9f9ff;border:3px solid #b6e7f8;
- border-radius:15px;padding:8px;color:#164466
-}
+.panel{position:relative;z-index:3;width:min(760px,95vw);max-height:84dvh;overflow:auto;margin:8px auto;padding:14px;text-align:center;border-radius:22px;background:linear-gradient(145deg,#fffffffa,#e1f6fffa);color:#103455;border:2px solid white;box-shadow:0 10px 30px #001d3c55}
+h2{margin:7px 0}
+.primary{background:linear-gradient(135deg,#fff07a,#ffad36);color:#4a2c00;padding:12px 20px;border:2px solid #fff4b0;border-radius:22px;margin:5px;box-shadow:0 4px 0 #bd6d16}
+.secondary{background:#d7f3ff;color:#12466b;border:2px solid #7bc8e9;padding:10px 16px;border-radius:20px;margin:5px}
+
+#startScreen{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:15px;background:radial-gradient(ellipse at center,#174d83,#030916)}
+.startBox{width:min(450px,95vw);text-align:center;padding:25px 16px;border:3px solid #63edff;border-radius:28px;background:linear-gradient(145deg,#102d59,#07152e);box-shadow:0 0 40px #00cfff66}
+.startBox h1{font-size:clamp(30px,8vw,48px);color:#63edff;margin:8px}
+.startBox h2{color:white}
+.startBox p{line-height:1.5}
+#startButton{width:90%;max-width:320px;padding:17px;font-size:25px;border-radius:20px;background:linear-gradient(135deg,#fff07a,#ffad36);color:#4a2c00;border:3px solid white;box-shadow:0 6px 0 #bd6d16}
+
+#menu,#characterSelect,#game,#quiz,#missionWin,#finalWin{display:none;position:relative;z-index:2}
+.missionCards{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0}
+.missionCard{padding:10px 5px;border-radius:15px;border:2px solid #8bcce8;background:linear-gradient(150deg,#fff,#d8f5ff);color:#164466;min-width:0}
+.missionCard span{display:block;font-size:40px}
+.missionCard b{display:block;margin-top:4px;font-size:14px}
+.missionCard small{font-size:10px}
+
+#characterList{display:grid;gap:10px;margin:10px auto;max-width:300px}
+.character{background:#e9f9ff;border:3px solid #b6e7f8;border-radius:15px;padding:8px;color:#164466}
 .character.selected{border-color:#ffb92e}
-.character svg{width:100%;height:130px}
+.character svg{width:100%;height:120px}
 .character b{display:block}
-.outfitName{font-size:13px;font-weight:900;margin-top:3px}
+.outfitName{font-size:12px;font-weight:900;margin-top:3px}
 .upgrade{font-size:11px;color:#6b4b00;font-weight:900;margin-top:4px}
 
-#game{
- height:calc(100dvh - 65px);
- flex-direction:column;padding:0 8px 5px
-}
-.hud{
- display:flex;justify-content:flex-start;gap:5px;
- flex-wrap:nowrap;overflow-x:auto;margin:5px auto;
- width:100%;scrollbar-width:none
-}
-.badge{
- flex:0 0 auto;background:#ffffffed;border-radius:10px;
- padding:5px 8px;font-weight:900;font-size:11px;
- color:#164466;border:2px solid #b5e9fb
-}
+#game{height:calc(100dvh - 55px);flex-direction:column;padding:0 7px 4px}
+.hud{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;margin:4px auto 6px;width:100%;scrollbar-width:none}
+.badge{flex:0 0 auto;background:#ffffffed;border-radius:10px;padding:5px 7px;font-weight:900;font-size:10px;color:#164466;border:2px solid #b5e9fb}
 .m2badge{background:#101d4b;color:white;border-color:#6aeaff}
-#track{
- position:relative;overflow:hidden;flex:1;
- min-height:140px;width:100%;max-width:1200px;
- margin:0 auto;border:3px solid white;border-radius:18px
-}
+
+#track{position:relative;overflow:hidden;flex:1;min-height:120px;width:100%;margin:0 auto;border:3px solid white;border-radius:16px}
 .m1track{background:linear-gradient(90deg,#d5f5ff,#effcff 50%,#d5f5ff)}
 .m2track{background:radial-gradient(ellipse at center,#263c83,#10143e)}
 .m3track{background:linear-gradient(#087fa4,#005477 60%,#00334f)}
 .m4track{background:linear-gradient(90deg,#9c83d9,#f6d9ff 48%,#9c83d9)}
-#track:before{
- content:"";position:absolute;inset:0;pointer-events:none;
- background:linear-gradient(90deg,transparent 19.7%,#ffffff36 20%,transparent 20.3%,
- transparent 39.7%,#ffffff36 40%,transparent 40.3%,
- transparent 59.7%,#ffffff36 60%,transparent 60.3%,
- transparent 79.7%,#ffffff36 80%,transparent 80.3%)
-}
-#player{
- position:absolute;z-index:4;bottom:7px;left:50%;
- width:65px;height:76px;transform:translateX(-50%);
- display:grid;place-items:center;filter:drop-shadow(0 0 8px #fff)
-}
+#track:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 19.7%,#ffffff36 20%,transparent 20.3%,transparent 39.7%,#ffffff36 40%,transparent 40.3%,transparent 59.7%,#ffffff36 60%,transparent 60.3%,transparent 79.7%,#ffffff36 80%,transparent 80.3%)}
+
+#player{position:absolute;z-index:4;bottom:7px;left:50%;width:65px;height:76px;transform:translateX(-50%);display:grid;place-items:center;filter:drop-shadow(0 0 8px white)}
 #player svg{width:100%;height:100%}
-.object{
- position:absolute;z-index:3;width:58px;height:58px;
- display:flex;align-items:center;justify-content:center;
- flex-direction:column;transform:translateX(-50%);
- border-radius:14px;background:linear-gradient(145deg,#fff,#dcefff);
- border:3px solid white;box-shadow:0 5px 0 #153d5a88;
- pointer-events:none;color:#102f4b
-}
+.object{position:absolute;z-index:3;width:58px;height:58px;display:flex;align-items:center;justify-content:center;flex-direction:column;transform:translateX(-50%);border-radius:14px;background:linear-gradient(145deg,#fff,#dcefff);border:3px solid white;box-shadow:0 5px 0 #153d5a88;pointer-events:none;color:#102f4b}
 .object.good{background:linear-gradient(145deg,#fff6a7,#ffb52e)}
 .object.bad{background:linear-gradient(145deg,#fff,#ffb8b8)}
 .object-icon{font-size:35px;line-height:1.05}
 .object-label{font-size:8px;font-weight:1000}
 
-.controls{
- flex:0 0 auto;display:flex;justify-content:space-between;
- margin:6px auto 0;max-width:540px;width:100%;gap:12px
-}
-.controls button{
- width:45%;height:45px;border-radius:13px;
- border:2px solid #a5f4ff;background:linear-gradient(145deg,#1c5c91,#09254a);
- color:white;font-size:13px;box-shadow:0 4px 0 #04162e;
- touch-action:manipulation
-}
+.controls{flex:0 0 auto;display:flex;justify-content:space-between;margin:6px auto 0;max-width:540px;width:100%;gap:12px}
+.controls button{width:45%;height:45px;border-radius:13px;border:2px solid #a5f4ff;background:linear-gradient(145deg,#1c5c91,#09254a);color:white;font-size:13px;box-shadow:0 4px 0 #04162e;touch-action:manipulation}
 .hint{text-align:center;font-size:10px;font-weight:bold;margin:4px}
 
-#quiz,#missionWin,#finalWin{
- position:fixed;inset:0;z-index:20;
- background:#001b35dd;align-items:center;
- justify-content:center;padding:10px
-}
+#quiz,#missionWin,#finalWin{position:fixed;inset:0;z-index:20;background:#001b35dd;align-items:center;justify-content:center;padding:9px}
 #quizPanel{width:min(680px,95vw);max-height:88dvh}
 #question{font-size:clamp(17px,2.6vw,23px);font-weight:800;line-height:1.4;color:#123c60}
 #answers{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
-.answer{
- width:100%;min-height:50px;border-radius:12px;
- border:2px solid #a5dff2;background:#e5f7ff;
- color:#123e61;padding:10px;text-align:right
-}
+.answer{width:100%;min-height:48px;border-radius:12px;border:2px solid #a5dff2;background:#e5f7ff;color:#123e61;padding:10px;text-align:right}
 .m2panel,.m4panel{background:linear-gradient(145deg,#17245c,#07122f);color:white;border:2px solid #57eaff}
 .m2panel .answer,.m4panel .answer{background:#14285a;color:white;border-color:#77dfff}
 #feedback{font-weight:900;min-height:25px;margin-top:10px}
 #replay{font-weight:900}
 
 @media(max-width:650px){
- .panel{width:95vw;padding:12px}
+ .panel{width:95vw;padding:11px}
  #answers{grid-template-columns:1fr}
- #game{height:calc(100dvh - 55px)}
  .missionCards{gap:7px}
- .missionCard{padding:9px 5px}
- .missionCard span{font-size:38px}
- header h1{font-size:clamp(18px,5vw,25px)}
+ .missionCard{padding:9px 4px}
+ .missionCard span{font-size:35px}
+ header h1{font-size:clamp(17px,5vw,24px)}
 }
 @media(max-height:700px){
  header{padding-top:4px}
@@ -205,6 +115,7 @@ h2{margin:8px 0}
 
 <body>
 <div id="app">
+
 <div id="world" class="m1">
 <div id="decoration" class="m1decor"></div>
 </div>
@@ -216,9 +127,22 @@ h2{margin:8px 0}
 <div id="subtitle">اصْطَدِمْ وَأَجِبْ • KP2027</div>
 </header>
 
+<!-- START SCREEN -->
+<section id="startScreen">
+<div class="startBox">
+<h1>🚀 KP2027</h1>
+<h2>تَحَدِّي الطِّفْلِ أَلْفَا</h2>
+<p>هَلْ أَنْتَ مُسْتَعِدٌّ يَا بَطَلُ؟</p>
+<p>Adakah kamu bersedia, wahai pahlawan?</p>
+<button id="startButton" onclick="startApp()">▶ START GAME</button>
+<p>🌟 اِبْدَأْ رِحْلَتَكَ 🌟</p>
+</div>
+</section>
+
+<!-- MAIN MENU -->
 <section id="menu" class="panel">
 <h2>🌟 أَهْلًا يَا بَطَلُ! 🌟</h2>
-<p>اِسْتَكْشِفْ أَرْبَعَ مَهَامٍّ، وَاخْتَرِ الْمَهَمَّةَ، وَأَظْهِرْ مَهَارَاتِكَ!</p>
+<p>اِسْتَكْشِفْ أَرْبَعَ مَهَامٍّ وَأَظْهِرْ مَهَارَاتِكَ!</p>
 
 <div class="missionCards">
 <button class="missionCard" onclick="selectMission(1)">
@@ -239,9 +163,10 @@ h2{margin:8px 0}
 </div>
 
 <p>💎 مجموع الجواهر: <b id="menuGems">0</b></p>
-<p>أَجِبْ عَنِ الْأَسْئِلَةِ بِشَكْلٍ صَحِيحٍ لِإِكْمَالِ كُلِّ مَهَمَّةٍ.</p>
+<p>أَجِبْ عَنِ الْأَسْئِلَةِ لِإِكْمَالِ الْمَهَامِّ.</p>
 </section>
 
+<!-- CHARACTER SELECT -->
 <section id="characterSelect" class="panel">
 <h2 id="selectTitle">اخْتَرِ الْبَطَلَ</h2>
 <p id="selectDescription"></p>
@@ -250,6 +175,7 @@ h2{margin:8px 0}
 <button class="secondary" onclick="backMenu()">الْعَوْدَةُ</button>
 </section>
 
+<!-- GAME -->
 <section id="game">
 <div class="hud">
 <div class="badge" id="who">البطل: —</div>
@@ -271,6 +197,7 @@ h2{margin:8px 0}
 <div class="hint" id="hint">تَجَنَّبِ الْخَطَرَ وَاضْرِبْ صُنْدُوقَ السُّؤَالِ!</div>
 </section>
 
+<!-- QUIZ -->
 <div id="quiz">
 <div class="panel" id="quizPanel">
 <h2 id="quizTitle">🌈 سُؤَالٌ ذَكِيٌّ</h2>
@@ -281,8 +208,9 @@ h2{margin:8px 0}
 </div>
 </div>
 
+<!-- MISSION WIN -->
 <div id="missionWin">
-<div class="panel" id="winPanel">
+<div class="panel">
 <h2 id="winTitle">🏆 نَجَحْتَ فِي الْمَهَمَّةِ!</h2>
 <p id="winMessage"></p>
 <p>💎 مجموع الجواهر: <b id="winGems">0</b></p>
@@ -291,6 +219,7 @@ h2{margin:8px 0}
 </div>
 </div>
 
+<!-- FINAL WIN -->
 <div id="finalWin">
 <div class="panel">
 <h1>🏆 أَحْسَنْتَ يَا بَطَلَ KP2027!</h1>
@@ -304,14 +233,28 @@ h2{margin:8px 0}
 </div>
 
 <script>
+"use strict";
+
 const GEM_KEY="kp2027Gems";
 
-let mission=1,selected=0,lane=2,score=0;
+let mission=1;
+let lane=2;
+let score=0;
 let gems=Number(localStorage.getItem(GEM_KEY)||0);
-let correctCount=0,running=false,paused=false;
-let objects=[],spawn=0,last=0,raf=0;
-let soundOn=true,audio=null,currentQ=null,answered=false;
-let musicTimer=null,quizOpening=false;
+let correctCount=0;
+let running=false;
+let paused=false;
+let objects=[];
+let spawn=0;
+let last=0;
+let raf=0;
+let soundOn=true;
+let audio=null;
+let currentQ=null;
+let answered=false;
+let musicTimer=null;
+let quizOpening=false;
+let musicIndex=0;
 
 const $=id=>document.getElementById(id);
 
@@ -321,7 +264,7 @@ const missions={
  value:"مُحِبٌّ وَرَحِيمٌ",
  description:"تجنب الحجر الأسود 🪨 واضرب حجر قوس قزح 🌈.",
  target:5,objectGood:"🌈",objectBad:"🪨",speed:2.6,spawnRate:48,
- outfit:"ملابس عادية وغير مرتبة",
+ outfit:"ملابس عادية",
  questions:[
  {q:"ماذا نفعل قبل أن نبدأ العمل؟",a:["نقرأ الدعاء","نسخر من صديقنا","نتشاجر","نضيع الوقت"],c:0},
  {q:"ماذا نفعل إذا رأينا القمامة؟",a:["نتركها","نضعها في سلة القمامة","نركلها","نخفيها"],c:1},
@@ -371,7 +314,6 @@ const missions={
  {q:"إذا رأينا قمامة في الحديقة، ماذا نفعل؟",a:["نرفعها ونضعها في السلة","نتركها","نزيد القمامة"],c:0},
  {q:"كيف نحترم الناس المختلفين عنا؟",a:["نحترم ثقافتهم ومعتقداتهم","نسخر من عاداتهم","نجبرهم أن يكونوا مثلنا"],c:0}
  ]
-}
 };
 
 function saveGems(){
@@ -388,8 +330,33 @@ function updateMenu(){
 }
 
 function hideAll(){
- ["menu","characterSelect","game","quiz","missionWin","finalWin"]
+ ["startScreen","menu","characterSelect","game","quiz","missionWin","finalWin"]
  .forEach(id=>$(id).style.display="none");
+}
+
+function startApp(){
+ hideAll();
+ $("menu").style.display="block";
+ updateMenu();
+ activateAudio();
+ startMusic();
+}
+
+function activateAudio(){
+ try{
+  if(!audio){
+   audio=new(window.AudioContext||window.webkitAudioContext)();
+  }
+  if(audio.state==="suspended")audio.resume();
+ }catch(e){}
+}
+
+function backMenu(){
+ stopGame();
+ hideAll();
+ $("menu").style.display="block";
+ updateMenu();
+ startMusic();
 }
 
 function setWorld(){
@@ -400,15 +367,6 @@ function setWorld(){
  $("gemBadge").className=(mission===2||mission===4)?"badge m2badge":"badge";
 }
 
-function backMenu(){
- stopGame();
- hideAll();
- $("menu").style.display="block";
- $("sound").style.display="block";
- startMusic();
- updateMenu();
-}
-
 function selectMission(n){
  if(n>1&&localStorage.getItem("kp2027M"+(n-1)+"Done")!=="yes"){
   alert("أكمل المهمة "+(n-1)+" أولاً!");
@@ -416,69 +374,48 @@ function selectMission(n){
  }
 
  stopGame();
- mission=n;selected=0;
- setWorld();hideAll();
+ mission=n;
+ lane=2;
+ setWorld();
+ hideAll();
 
  $("characterSelect").style.display="block";
  $("selectTitle").textContent="بطل واحد • ملابس جديدة";
  $("selectDescription").textContent=missions[n].description;
- $("characterList").style.display="grid";
 
  buildChoices();
  startMusic();
 }
 
 function outfitSVG(stage){
- if(stage===1){
- return `<svg viewBox="0 0 120 110">
- <circle cx="60" cy="25" r="13" fill="#b9784d"/>
- <circle cx="55" cy="23" r="2"/><circle cx="65" cy="23" r="2"/>
- <path d="M54 30Q60 34 66 30" fill="none" stroke="#5b3427" stroke-width="2"/>
- <path d="M45 38L42 70L76 69L72 39Z" fill="#777" stroke="#444" stroke-width="3"/>
- <path d="M42 45L32 66M75 45L85 64" stroke="#777" stroke-width="9" stroke-linecap="round"/>
- <path d="M48 70L45 94M69 70L76 92" stroke="#555" stroke-width="9" stroke-linecap="round"/>
- <path d="M39 94L54 94M69 92L84 92" stroke="#222" stroke-width="5" stroke-linecap="round"/>
- </svg>`;
- }
+ let robe="#f1c7a3";
+ let hat="";
 
- if(stage===2){
- return `<svg viewBox="0 0 120 110">
- <circle cx="60" cy="25" r="13" fill="#b9784d"/>
- <circle cx="55" cy="23" r="2"/><circle cx="65" cy="23" r="2"/>
- <path d="M54 30Q60 34 66 30" fill="none" stroke="#5b3427" stroke-width="2"/>
- <path d="M45 38L42 70L76 69L72 39Z" fill="#f6f0d6" stroke="#7d6a48" stroke-width="2"/>
- <path d="M42 45L32 66M75 45L85 64" stroke="#f6f0d6" stroke-width="9" stroke-linecap="round"/>
- <path d="M43 58L77 52L79 74L41 74Z" fill="#8b5a35" stroke="#5b3922" stroke-width="2"/>
- <path d="M48 70L45 94M69 70L76 92" stroke="#b9784d" stroke-width="8" stroke-linecap="round"/>
- </svg>`;
- }
-
- if(stage===3){
- return `<svg viewBox="0 0 120 110">
- <circle cx="60" cy="25" r="13" fill="#b9784d"/>
- <circle cx="55" cy="23" r="2"/><circle cx="65" cy="23" r="2"/>
- <path d="M54 30Q60 34 66 30" fill="none" stroke="#5b3427" stroke-width="2"/>
- <path d="M43 38Q60 31 77 38L82 97H38Z" fill="#f7f2df" stroke="#a08d6a" stroke-width="2"/>
- <path d="M44 47L31 68M76 47L89 68" stroke="#f7f2df" stroke-width="10" stroke-linecap="round"/>
- <path d="M47 97L47 101M73 97L73 101" stroke="#b9784d" stroke-width="7" stroke-linecap="round"/>
- </svg>`;
+ if(stage===2)robe="#f6f0d6";
+ if(stage===3)robe="#f7f2df";
+ if(stage===4){
+  robe="#fffdf2";
+  hat='<path d="M44 24Q43 8 60 8Q77 8 76 24Q60 15 44 24Z" fill="#fff" stroke="#d7d7d7" stroke-width="2"/>';
  }
 
  return `<svg viewBox="0 0 120 110">
- <path d="M44 24Q43 8 60 8Q77 8 76 24Q70 17 60 18Q50 17 44 24Z" fill="#fff" stroke="#d7d7d7" stroke-width="2"/>
- <circle cx="60" cy="30" r="12" fill="#b9784d"/>
- <circle cx="55" cy="28" r="2"/><circle cx="65" cy="28" r="2"/>
+ ${hat}
+ <circle cx="60" cy="30" r="13" fill="#b9784d" stroke="#5b3427" stroke-width="2"/>
+ <circle cx="55" cy="28" r="2" fill="#111"/>
+ <circle cx="65" cy="28" r="2" fill="#111"/>
  <path d="M54 35Q60 39 66 35" fill="none" stroke="#5b3427" stroke-width="2"/>
- <path d="M42 42Q60 35 78 42L82 94H38Z" fill="#fffdf2" stroke="#c8c0a8" stroke-width="2"/>
- <path d="M42 50L29 70M78 50L91 70" stroke="#fffdf2" stroke-width="10" stroke-linecap="round"/>
- <path d="M45 51Q60 62 75 51L82 72Q60 82 38 72Z" fill="#d8c39a" stroke="#a98e5b" stroke-width="2"/>
- <path d="M47 94L47 99M73 94L73 99" stroke="#b9784d" stroke-width="7" stroke-linecap="round"/>
+ <path d="M43 42Q60 35 77 42L82 94H38Z" fill="${robe}" stroke="#a08d6a" stroke-width="2"/>
+ <path d="M44 48L31 68M76 48L89 68" stroke="${robe}" stroke-width="10" stroke-linecap="round"/>
+ <path d="M47 94L47 101M73 94L73 101" stroke="#b9784d" stroke-width="7" stroke-linecap="round"/>
+ <path d="M43 101L57 101M63 101L77 101" stroke="#5b3922" stroke-width="5" stroke-linecap="round"/>
+ ${stage===2?'<path d="M43 58L77 52L79 74L41 74Z" fill="#8b5a35"/>':''}
+ ${stage===4?'<path d="M45 51Q60 62 75 51L82 72Q60 82 38 72Z" fill="#d8c39a" stroke="#a98e5b" stroke-width="2"/>':''}
  </svg>`;
 }
 
 function buildChoices(){
  $("characterList").innerHTML=
- `<button class="character selected" onclick="chooseCharacter(0)">
+ `<button class="character selected" onclick="chooseCharacter()">
  ${outfitSVG(mission)}
  <b>ولد مسلم</b>
  <div class="outfitName">${missions[mission].outfit}</div>
@@ -486,8 +423,7 @@ function buildChoices(){
  </button>`;
 }
 
-function chooseCharacter(i){
- selected=0;
+function chooseCharacter(){
  buildChoices();
 }
 
@@ -500,12 +436,14 @@ function startGame(){
  hideAll();
 
  $("game").style.display="flex";
- $("sound").style.display="block";
-
  setWorld();
 
- score=0;correctCount=0;lane=2;
- objects=[];spawn=0;quizOpening=false;
+ score=0;
+ correctCount=0;
+ lane=2;
+ objects=[];
+ spawn=0;
+ quizOpening=false;
 
  gems=Number(localStorage.getItem(GEM_KEY)||0);
 
@@ -517,9 +455,11 @@ function startGame(){
 
  updateHUD();
 
- running=true;paused=false;
+ running=true;
+ paused=false;
  last=performance.now();
 
+ activateAudio();
  startMusic();
  raf=requestAnimationFrame(loop);
 }
@@ -558,7 +498,6 @@ function spawnObject(){
  el.style.top="-65px";
 
  $("track").appendChild(el);
-
  objects.push({el,l,y:-65,good,hit:false});
 }
 
@@ -625,8 +564,8 @@ function openQuiz(){
  ).join("");
 
  $("quizPanel").className=(mission===2||mission===4)?"panel m2panel":"panel";
-
  $("quiz").style.display="flex";
+
  readQuestion();
 }
 
@@ -636,7 +575,6 @@ function readQuestion(){
  speechSynthesis.cancel();
 
  const voices=speechSynthesis.getVoices();
-
  const voice=voices.find(v=>/^ar(-|_)?sa/i.test(v.lang))||
              voices.find(v=>/^ar/i.test(v.lang));
 
@@ -654,7 +592,7 @@ function readQuestion(){
   if(voice)msg.voice=voice;
 
   msg.rate=0.82;
-  msg.pitch=1.0;
+  msg.pitch=1;
   msg.volume=1;
 
   if(index===0){
@@ -706,7 +644,6 @@ function answerQuestion(i){
 
  }else{
   tone(180,.25,"sawtooth");
-
   $("feedback").textContent="❌ ليس صحيحًا. حاول مرة أخرى.";
   $("feedback").style.color="#c34b35";
  }
@@ -767,9 +704,7 @@ function tone(freq=600,duration=.22,wave="sine",volume=.12){
  if(!soundOn)return;
 
  try{
-  audio=audio||(new(window.AudioContext||window.webkitAudioContext)());
-
-  if(audio.state==="suspended")audio.resume();
+  activateAudio();
 
   const o=audio.createOscillator();
   const g=audio.createGain();
@@ -786,11 +721,10 @@ function tone(freq=600,duration=.22,wave="sine",volume=.12){
 
   o.start();
   o.stop(audio.currentTime+duration+.03);
-
  }catch(e){}
 }
 
-/* PEMBAIKAN UTAMA: FUNGSI STOP MUSIC */
+/* MUSIC */
 function stopMusic(){
  if(musicTimer!==null){
   clearInterval(musicTimer);
@@ -798,7 +732,6 @@ function stopMusic(){
  }
 }
 
-/* MUZIK LATAR */
 function startMusic(){
  if(!soundOn)return;
 
@@ -812,7 +745,7 @@ function startMusic(){
  ];
 
  const bass=[130.81,164.81,196,164.81];
- let n=0;
+ musicIndex=0;
 
  musicTimer=setInterval(()=>{
   if(!soundOn)return;
@@ -824,22 +757,18 @@ function startMusic(){
      $("finalWin").style.display!=="flex" &&
      $("quiz").style.display!=="flex")return;
 
-  tone(melody[n%melody.length],.28,"triangle",.075);
+  tone(melody[musicIndex%melody.length],.28,"triangle",.075);
 
-  if(n%4===0){
-   tone(bass[Math.floor(n/4)%bass.length],.42,"sine",.045);
+  if(musicIndex%4===0){
+   tone(bass[Math.floor(musicIndex/4)%bass.length],.42,"sine",.045);
   }
 
-  if(n%2===1){
-   tone(melody[n%melody.length]*2,.12,"sine",.018);
+  if(musicIndex%2===1){
+   tone(melody[musicIndex%melody.length]*2,.12,"sine",.018);
   }
 
-  n++;
+  musicIndex++;
  },360);
-}
-
-function startMenuMusic(){
- if(soundOn)startMusic();
 }
 
 function toggleSound(){
@@ -850,6 +779,7 @@ function toggleSound(){
  if(!soundOn){
   stopMusic();
  }else{
+  activateAudio();
   startMusic();
  }
 }
@@ -859,30 +789,11 @@ if("speechSynthesis" in window){
  speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
 }
 
+/* INITIAL SCREEN */
 updateMenu();
-startMenuMusic();
-
-/* تشغيل الصوت بعد أول تفاعل مع الهاتف */
-window.addEventListener("pointerdown",()=>{
- if(soundOn){
-  if(audio&&audio.state==="suspended")audio.resume();
-  if(musicTimer===null)startMusic();
- }
-});
-
-window.addEventListener("keydown",()=>{
- if(soundOn){
-  if(audio&&audio.state==="suspended")audio.resume();
-  if(musicTimer===null)startMusic();
- }
-});
-
-window.addEventListener("touchstart",()=>{
- if(soundOn){
-  if(audio&&audio.state==="suspended")audio.resume();
-  if(musicTimer===null)startMusic();
- }
-},{passive:true});
+hideAll();
+$("startScreen").style.display="flex";
+$("sound").style.display="block";
 
 </script>
 </body>
