@@ -127,7 +127,6 @@ h2{margin:7px 0}
 <div id="subtitle">اصْطَدِمْ وَأَجِبْ • KP2027</div>
 </header>
 
-<!-- START SCREEN -->
 <section id="startScreen">
 <div class="startBox">
 <h1>🚀 KP2027</h1>
@@ -139,34 +138,27 @@ h2{margin:7px 0}
 </div>
 </section>
 
-<!-- MAIN MENU -->
 <section id="menu" class="panel">
 <h2>🌟 أَهْلًا يَا بَطَلُ! 🌟</h2>
 <p>اِسْتَكْشِفْ أَرْبَعَ مَهَامٍّ وَأَظْهِرْ مَهَارَاتِكَ!</p>
-
 <div class="missionCards">
 <button class="missionCard" onclick="selectMission(1)">
 <span>❄️</span><b>المهمة 1</b><small>مُحِبٌّ لِلْخَيْرِ</small>
 </button>
-
 <button class="missionCard" id="mission2Card" onclick="selectMission(2)">
 <span>🚀</span><b>المهمة 2</b><small>صَابِرٌ وَثَابِتٌ</small>
 </button>
-
 <button class="missionCard" id="mission3Card" onclick="selectMission(3)">
 <span>🌊</span><b>المهمة 3</b><small>قَائِدٌ صَالِحٌ</small>
 </button>
-
 <button class="missionCard" id="mission4Card" onclick="selectMission(4)">
 <span>🏰</span><b>المهمة 4</b><small>مُوَاطِنٌ نَشِيطٌ</small>
 </button>
 </div>
-
 <p>💎 مجموع الجواهر: <b id="menuGems">0</b></p>
 <p>أَجِبْ عَنِ الْأَسْئِلَةِ لِإِكْمَالِ الْمَهَامِّ.</p>
 </section>
 
-<!-- CHARACTER SELECT -->
 <section id="characterSelect" class="panel">
 <h2 id="selectTitle">اخْتَرِ الْبَطَلَ</h2>
 <p id="selectDescription"></p>
@@ -175,7 +167,6 @@ h2{margin:7px 0}
 <button class="secondary" onclick="backMenu()">الْعَوْدَةُ</button>
 </section>
 
-<!-- GAME -->
 <section id="game">
 <div class="hud">
 <div class="badge" id="who">البطل: —</div>
@@ -184,20 +175,16 @@ h2{margin:7px 0}
 <div class="badge">🏁 المهمة: <span id="mission">1</span></div>
 <div class="badge">📦 الأسئلة: <span id="progress">0/5</span></div>
 </div>
-
 <div id="track" class="m1track">
 <div id="player"></div>
 </div>
-
 <div class="controls">
 <button onclick="move(-1)">◀ يَسَار</button>
 <button onclick="move(1)">يَمِين ▶</button>
 </div>
-
 <div class="hint" id="hint">تَجَنَّبِ الْخَطَرَ وَاضْرِبْ صُنْدُوقَ السُّؤَالِ!</div>
 </section>
 
-<!-- QUIZ -->
 <div id="quiz">
 <div class="panel" id="quizPanel">
 <h2 id="quizTitle">🌈 سُؤَالٌ ذَكِيٌّ</h2>
@@ -208,7 +195,6 @@ h2{margin:7px 0}
 </div>
 </div>
 
-<!-- MISSION WIN -->
 <div id="missionWin">
 <div class="panel">
 <h2 id="winTitle">🏆 نَجَحْتَ فِي الْمَهَمَّةِ!</h2>
@@ -219,7 +205,6 @@ h2{margin:7px 0}
 </div>
 </div>
 
-<!-- FINAL WIN -->
 <div id="finalWin">
 <div class="panel">
 <h1>🏆 أَحْسَنْتَ يَا بَطَلَ KP2027!</h1>
@@ -255,6 +240,7 @@ let answered=false;
 let musicTimer=null;
 let quizOpening=false;
 let musicIndex=0;
+let audioStarting=false;
 
 const $=id=>document.getElementById(id);
 
@@ -314,8 +300,10 @@ const missions={
  {q:"إذا رأينا قمامة في الحديقة، ماذا نفعل؟",a:["نرفعها ونضعها في السلة","نتركها","نزيد القمامة"],c:0},
  {q:"كيف نحترم الناس المختلفين عنا؟",a:["نحترم ثقافتهم ومعتقداتهم","نسخر من عاداتهم","نجبرهم أن يكونوا مثلنا"],c:0}
  ]
+}
 };
 
+/* حفظ الجواهر */
 function saveGems(){
  localStorage.setItem(GEM_KEY,String(gems));
 }
@@ -323,7 +311,6 @@ function saveGems(){
 function updateMenu(){
  gems=Number(localStorage.getItem(GEM_KEY)||0);
  $("menuGems").textContent=gems;
-
  $("mission2Card").disabled=localStorage.getItem("kp2027M1Done")!=="yes";
  $("mission3Card").disabled=localStorage.getItem("kp2027M2Done")!=="yes";
  $("mission4Card").disabled=localStorage.getItem("kp2027M3Done")!=="yes";
@@ -334,30 +321,145 @@ function hideAll(){
  .forEach(id=>$(id).style.display="none");
 }
 
-function startApp(){
- hideAll();
- $("menu").style.display="block";
- updateMenu();
- activateAudio();
- startMusic();
-}
+/* ==========================
+   SISTEM AUDIO DIPERBAIKI
+   ========================== */
 
-function activateAudio(){
+/* Audio hanya dibuka melalui sentuhan pengguna */
+async function activateAudio(){
  try{
   if(!audio){
-   audio=new(window.AudioContext||window.webkitAudioContext)();
+   const AudioClass=window.AudioContext||window.webkitAudioContext;
+   if(!AudioClass)return false;
+   audio=new AudioClass();
   }
-  if(audio.state==="suspended")audio.resume();
+
+  if(audio.state==="suspended"){
+   await audio.resume();
+  }
+
+  return audio.state==="running";
+ }catch(e){
+  console.warn("Audio tidak dapat diaktifkan:",e);
+  return false;
+ }
+}
+
+/* Bunyi permainan */
+function tone(freq=600,duration=.22,wave="sine",volume=.12){
+ if(!soundOn||!audio||audio.state!=="running")return;
+
+ try{
+  const o=audio.createOscillator();
+  const g=audio.createGain();
+
+  o.type=wave;
+  o.frequency.setValueAtTime(freq,audio.currentTime);
+
+  g.gain.setValueAtTime(.0001,audio.currentTime);
+  g.gain.exponentialRampToValueAtTime(volume,audio.currentTime+.025);
+  g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);
+
+  o.connect(g);
+  g.connect(audio.destination);
+
+  o.start();
+  o.stop(audio.currentTime+duration+.04);
+  o.onended=()=>{o.disconnect();g.disconnect()};
  }catch(e){}
 }
 
+/* Melodi asal KP2027 */
+const melody=[
+ 523.25,659.25,783.99,659.25,
+ 587.33,698.46,880,783.99,
+ 659.25,783.99,987.77,880,
+ 698.46,783.99,880,659.25,
+ 523.25,659.25,783.99,1046.5,
+ 987.77,880,783.99,659.25,
+ 587.33,698.46,880,698.46,
+ 523.25,659.25,783.99,523.25
+];
+
+const bass=[130.81,164.81,196,164.81,146.83,174.61,196,146.83];
+
+function stopMusic(){
+ if(musicTimer!==null){
+  clearInterval(musicTimer);
+  musicTimer=null;
+ }
+}
+
+function startMusic(){
+ stopMusic();
+
+ if(!soundOn||!audio||audio.state!=="running")return;
+
+ musicIndex=0;
+
+ musicTimer=setInterval(()=>{
+  if(!soundOn||!audio||audio.state!=="running")return;
+
+  const menuVisible=$("menu").style.display==="block";
+  const characterVisible=$("characterSelect").style.display==="block";
+  const gameVisible=$("game").style.display==="flex";
+
+  if(!menuVisible&&!characterVisible&&!gameVisible)return;
+  if($("quiz").style.display==="flex")return;
+
+  const note=melody[musicIndex%melody.length];
+
+  tone(note,.32,"triangle",.065);
+
+  if(musicIndex%4===0){
+   tone(bass[Math.floor(musicIndex/4)%bass.length],.48,"sine",.045);
+  }
+
+  if(musicIndex%2===1){
+   tone(note*2,.13,"sine",.015);
+  }
+
+  musicIndex++;
+ },390);
+}
+
+async function toggleSound(){
+ soundOn=!soundOn;
+
+ $("sound").textContent=soundOn?"🔊 الصوت":"🔇 صامت";
+
+ if(!soundOn){
+  stopMusic();
+ }else{
+  const ready=await activateAudio();
+  if(ready)startMusic();
+ }
+}
+
+/* Masuk permainan */
+async function startApp(){
+ const ready=await activateAudio();
+
+ hideAll();
+ $("menu").style.display="block";
+ updateMenu();
+
+ if(ready&&soundOn)startMusic();
+}
+
+/* Kembali ke menu */
 function backMenu(){
  stopGame();
  hideAll();
  $("menu").style.display="block";
  updateMenu();
- startMusic();
+
+ if(soundOn&&audio&&audio.state==="running")startMusic();
 }
+
+/* ==========================
+   DUNIA DAN MISI
+   ========================== */
 
 function setWorld(){
  $("world").className="m"+mission;
@@ -384,8 +486,13 @@ function selectMission(n){
  $("selectDescription").textContent=missions[n].description;
 
  buildChoices();
- startMusic();
+
+ if(soundOn&&audio&&audio.state==="running")startMusic();
 }
+
+/* ==========================
+   WATAK ASAL
+   ========================== */
 
 function outfitSVG(stage){
  let robe="#f1c7a3";
@@ -393,6 +500,7 @@ function outfitSVG(stage){
 
  if(stage===2)robe="#f6f0d6";
  if(stage===3)robe="#f7f2df";
+
  if(stage===4){
   robe="#fffdf2";
   hat='<path d="M44 24Q43 8 60 8Q77 8 76 24Q60 15 44 24Z" fill="#fff" stroke="#d7d7d7" stroke-width="2"/>';
@@ -431,7 +539,13 @@ function playerArt(){
  return outfitSVG(mission);
 }
 
-function startGame(){
+/* ==========================
+   MULAKAN MISI
+   ========================== */
+
+async function startGame(){
+ const ready=await activateAudio();
+
  stopGame();
  hideAll();
 
@@ -459,8 +573,8 @@ function startGame(){
  paused=false;
  last=performance.now();
 
- activateAudio();
- startMusic();
+ if(ready&&soundOn)startMusic();
+
  raf=requestAnimationFrame(loop);
 }
 
@@ -482,6 +596,10 @@ document.addEventListener("keydown",e=>{
  if(e.key==="ArrowLeft"||e.key.toLowerCase()==="a")move(-1);
  if(e.key==="ArrowRight"||e.key.toLowerCase()==="d")move(1);
 });
+
+/* ==========================
+   OBJEK PERMAINAN
+   ========================== */
 
 function spawnObject(){
  let good=Math.random()<0.35;
@@ -545,6 +663,10 @@ function loop(now){
  raf=requestAnimationFrame(loop);
 }
 
+/* ==========================
+   SOALAN DAN SUARA ARAB
+   ========================== */
+
 function openQuiz(){
  if(quizOpening||paused)return;
 
@@ -569,6 +691,7 @@ function openQuiz(){
  readQuestion();
 }
 
+/* Baca satu demi satu supaya suara tidak bertindih */
 function readQuestion(){
  if(!currentQ||!("speechSynthesis" in window))return;
 
@@ -578,34 +701,55 @@ function readQuestion(){
  const voice=voices.find(v=>/^ar(-|_)?sa/i.test(v.lang))||
              voices.find(v=>/^ar/i.test(v.lang));
 
- const lines=["السؤال. "+currentQ.q,"خيارات الإجابة."];
+ const lines=[
+  "السؤال. "+currentQ.q,
+  "خيارات الإجابة."
+ ];
 
- currentQ.a.forEach((a,i)=>
- lines.push("الخيار "+String.fromCharCode(65+i)+". "+a));
+ currentQ.a.forEach((a,i)=>{
+  lines.push("الخيار "+String.fromCharCode(65+i)+". "+a);
+ });
 
  lines.push("اختر الإجابة الصحيحة.");
 
- lines.forEach((line,index)=>{
-  const msg=new SpeechSynthesisUtterance(line);
+ let index=0;
+
+ $("replay").textContent="🔊 جارٍ القراءة…";
+
+ function speakNext(){
+  if(index>=lines.length){
+   $("replay").textContent="🔊 اسمع السؤال والإجابات";
+   return;
+  }
+
+  const msg=new SpeechSynthesisUtterance(lines[index]);
 
   msg.lang=voice?voice.lang:"ar-SA";
   if(voice)msg.voice=voice;
 
-  msg.rate=0.82;
+  msg.rate=.82;
   msg.pitch=1;
   msg.volume=1;
 
-  if(index===0){
-   msg.onstart=()=>{$("replay").textContent="🔊 جارٍ القراءة…"};
-  }
+  msg.onend=()=>{
+   index++;
+   speakNext();
+  };
 
-  if(index===lines.length-1){
-   msg.onend=()=>{$("replay").textContent="🔊 اسمع السؤال والإجابات"};
-  }
+  msg.onerror=()=>{
+   index++;
+   speakNext();
+  };
 
   speechSynthesis.speak(msg);
- });
+ }
+
+ speakNext();
 }
+
+/* ==========================
+   JAWAPAN
+   ========================== */
 
 function answerQuestion(i){
  if(answered||!currentQ)return;
@@ -618,7 +762,8 @@ function answerQuestion(i){
   correctCount++;
 
   saveGems();
-  tone(880,.18);
+  tone(880,.18,"sine",.15);
+  tone(1100,.2,"triangle",.08);
 
   $("feedback").textContent="🎉 صحيح! +500 جوهرة!";
   $("feedback").style.color="#16864c";
@@ -638,7 +783,8 @@ function answerQuestion(i){
     completeMission();
    }else{
     paused=false;
-    startMusic();
+
+    if(soundOn&&audio&&audio.state==="running")startMusic();
    }
   },1100);
 
@@ -648,6 +794,10 @@ function answerQuestion(i){
   $("feedback").style.color="#c34b35";
  }
 }
+
+/* ==========================
+   MISI SELESAI
+   ========================== */
 
 function completeMission(){
  running=false;
@@ -685,6 +835,10 @@ function nextMission(){
  if(mission<4)selectMission(mission+1);
 }
 
+/* ==========================
+   BERHENTI
+   ========================== */
+
 function stopGame(){
  running=false;
  paused=false;
@@ -700,96 +854,19 @@ function stopGame(){
  if("speechSynthesis" in window)speechSynthesis.cancel();
 }
 
-function tone(freq=600,duration=.22,wave="sine",volume=.12){
- if(!soundOn)return;
-
- try{
-  activateAudio();
-
-  const o=audio.createOscillator();
-  const g=audio.createGain();
-
-  o.type=wave;
-  o.frequency.setValueAtTime(freq,audio.currentTime);
-
-  g.gain.setValueAtTime(.0001,audio.currentTime);
-  g.gain.exponentialRampToValueAtTime(volume,audio.currentTime+.025);
-  g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);
-
-  o.connect(g);
-  g.connect(audio.destination);
-
-  o.start();
-  o.stop(audio.currentTime+duration+.03);
- }catch(e){}
-}
-
-/* MUSIC */
-function stopMusic(){
- if(musicTimer!==null){
-  clearInterval(musicTimer);
-  musicTimer=null;
- }
-}
-
-function startMusic(){
- if(!soundOn)return;
-
- stopMusic();
-
- const melody=[
-  523.25,659.25,783.99,659.25,
-  587.33,698.46,880,783.99,
-  659.25,783.99,987.77,880,
-  698.46,783.99,880,659.25
- ];
-
- const bass=[130.81,164.81,196,164.81];
- musicIndex=0;
-
- musicTimer=setInterval(()=>{
-  if(!soundOn)return;
-
-  if(!running &&
-     $("menu").style.display!=="block" &&
-     $("characterSelect").style.display!=="block" &&
-     $("missionWin").style.display!=="flex" &&
-     $("finalWin").style.display!=="flex" &&
-     $("quiz").style.display!=="flex")return;
-
-  tone(melody[musicIndex%melody.length],.28,"triangle",.075);
-
-  if(musicIndex%4===0){
-   tone(bass[Math.floor(musicIndex/4)%bass.length],.42,"sine",.045);
-  }
-
-  if(musicIndex%2===1){
-   tone(melody[musicIndex%melody.length]*2,.12,"sine",.018);
-  }
-
-  musicIndex++;
- },360);
-}
-
-function toggleSound(){
- soundOn=!soundOn;
-
- $("sound").textContent=soundOn?"🔊 الصوت":"🔇 صامت";
-
- if(!soundOn){
-  stopMusic();
- }else{
-  activateAudio();
-  startMusic();
- }
-}
+/* ==========================
+   SUARA SISTEM
+   ========================== */
 
 if("speechSynthesis" in window){
  speechSynthesis.getVoices();
  speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
 }
 
-/* INITIAL SCREEN */
+/* ==========================
+   PAPARAN AWAL
+   ========================== */
+
 updateMenu();
 hideAll();
 $("startScreen").style.display="flex";
