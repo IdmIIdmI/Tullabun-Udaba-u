@@ -1,877 +1,212 @@
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#07152e">
-<title>KP2027 - تحدي الطفل ألفا</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peti RM1 Juta</title>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden}
-body{font-family:Arial,sans-serif;color:white;background:#07152e;user-select:none}
-button{font:inherit;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.4}
-#app{width:100%;height:100dvh;position:relative;overflow:hidden}
-#world{position:absolute;inset:0}
-#world.m1{background:linear-gradient(#5bc5ed,#d9f7ff 55%,#8bcbe8)}
-#world.m2{background:radial-gradient(ellipse at 50% 100%,#263c83,#020515)}
-#world.m3{background:linear-gradient(#087fa4,#005477 60%,#00334f)}
-#world.m4{background:linear-gradient(#392b85,#a77ee7 36%,#e5baff 65%,#55c9ba)}
-#decoration{position:absolute;inset:0;pointer-events:none}
-.m1decor{background-image:radial-gradient(#fff 2px,transparent 3px);background-size:43px 43px;animation:snow 9s linear infinite}
-.m2decor{background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 100px 120px,#8beaff,transparent);background-size:450px 300px;animation:stars 12s linear infinite}
-.m3decor{background-image:radial-gradient(ellipse at 20% 30%,#ffffff22 0 2px,transparent 4px);background-size:100px 130px;animation:bubbles 8s linear infinite}
-.m4decor{background-image:radial-gradient(circle at 15% 18%,#fff8c8 0 2px,transparent 4px);background-size:300px 200px}
-@keyframes snow{to{background-position:0 300px}}
-@keyframes stars{to{transform:translateY(300px)}}
-@keyframes bubbles{to{background-position:0 -300px}}
-
-header{position:relative;z-index:2;text-align:center;padding:8px 55px 4px;text-shadow:0 2px 5px #0005}
-header h1{margin:0;font-size:clamp(18px,4vw,30px)}
-#subtitle{font-size:11px;margin-top:3px;font-weight:bold}
-#sound{position:absolute;right:8px;top:8px;z-index:40;border:2px solid #55dcff;border-radius:12px;padding:7px 9px;background:#fff;color:#123}
-
-.panel{position:relative;z-index:3;width:min(760px,95vw);max-height:84dvh;overflow:auto;margin:8px auto;padding:14px;text-align:center;border-radius:22px;background:linear-gradient(145deg,#fffffffa,#e1f6fffa);color:#103455;border:2px solid white;box-shadow:0 10px 30px #001d3c55}
-h2{margin:7px 0}
-.primary{background:linear-gradient(135deg,#fff07a,#ffad36);color:#4a2c00;padding:12px 20px;border:2px solid #fff4b0;border-radius:22px;margin:5px;box-shadow:0 4px 0 #bd6d16}
-.secondary{background:#d7f3ff;color:#12466b;border:2px solid #7bc8e9;padding:10px 16px;border-radius:20px;margin:5px}
-
-#startScreen{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:15px;background:radial-gradient(ellipse at center,#174d83,#030916)}
-.startBox{width:min(450px,95vw);text-align:center;padding:25px 16px;border:3px solid #63edff;border-radius:28px;background:linear-gradient(145deg,#102d59,#07152e);box-shadow:0 0 40px #00cfff66}
-.startBox h1{font-size:clamp(30px,8vw,48px);color:#63edff;margin:8px}
-.startBox h2{color:white}
-.startBox p{line-height:1.5}
-#startButton{width:90%;max-width:320px;padding:17px;font-size:25px;border-radius:20px;background:linear-gradient(135deg,#fff07a,#ffad36);color:#4a2c00;border:3px solid white;box-shadow:0 6px 0 #bd6d16}
-
-#menu,#characterSelect,#game,#quiz,#missionWin,#finalWin{display:none;position:relative;z-index:2}
-.missionCards{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0}
-.missionCard{padding:10px 5px;border-radius:15px;border:2px solid #8bcce8;background:linear-gradient(150deg,#fff,#d8f5ff);color:#164466;min-width:0}
-.missionCard span{display:block;font-size:40px}
-.missionCard b{display:block;margin-top:4px;font-size:14px}
-.missionCard small{font-size:10px}
-
-#characterList{display:grid;gap:10px;margin:10px auto;max-width:300px}
-.character{background:#e9f9ff;border:3px solid #b6e7f8;border-radius:15px;padding:8px;color:#164466}
-.character.selected{border-color:#ffb92e}
-.character svg{width:100%;height:120px}
-.character b{display:block}
-.outfitName{font-size:12px;font-weight:900;margin-top:3px}
-.upgrade{font-size:11px;color:#6b4b00;font-weight:900;margin-top:4px}
-
-#game{height:calc(100dvh - 55px);flex-direction:column;padding:0 7px 4px}
-.hud{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;margin:4px auto 6px;width:100%;scrollbar-width:none}
-.badge{flex:0 0 auto;background:#ffffffed;border-radius:10px;padding:5px 7px;font-weight:900;font-size:10px;color:#164466;border:2px solid #b5e9fb}
-.m2badge{background:#101d4b;color:white;border-color:#6aeaff}
-
-#track{position:relative;overflow:hidden;flex:1;min-height:120px;width:100%;margin:0 auto;border:3px solid white;border-radius:16px}
-.m1track{background:linear-gradient(90deg,#d5f5ff,#effcff 50%,#d5f5ff)}
-.m2track{background:radial-gradient(ellipse at center,#263c83,#10143e)}
-.m3track{background:linear-gradient(#087fa4,#005477 60%,#00334f)}
-.m4track{background:linear-gradient(90deg,#9c83d9,#f6d9ff 48%,#9c83d9)}
-#track:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 19.7%,#ffffff36 20%,transparent 20.3%,transparent 39.7%,#ffffff36 40%,transparent 40.3%,transparent 59.7%,#ffffff36 60%,transparent 60.3%,transparent 79.7%,#ffffff36 80%,transparent 80.3%)}
-
-#player{position:absolute;z-index:4;bottom:7px;left:50%;width:65px;height:76px;transform:translateX(-50%);display:grid;place-items:center;filter:drop-shadow(0 0 8px white)}
-#player svg{width:100%;height:100%}
-.object{position:absolute;z-index:3;width:58px;height:58px;display:flex;align-items:center;justify-content:center;flex-direction:column;transform:translateX(-50%);border-radius:14px;background:linear-gradient(145deg,#fff,#dcefff);border:3px solid white;box-shadow:0 5px 0 #153d5a88;pointer-events:none;color:#102f4b}
-.object.good{background:linear-gradient(145deg,#fff6a7,#ffb52e)}
-.object.bad{background:linear-gradient(145deg,#fff,#ffb8b8)}
-.object-icon{font-size:35px;line-height:1.05}
-.object-label{font-size:8px;font-weight:1000}
-
-.controls{flex:0 0 auto;display:flex;justify-content:space-between;margin:6px auto 0;max-width:540px;width:100%;gap:12px}
-.controls button{width:45%;height:45px;border-radius:13px;border:2px solid #a5f4ff;background:linear-gradient(145deg,#1c5c91,#09254a);color:white;font-size:13px;box-shadow:0 4px 0 #04162e;touch-action:manipulation}
-.hint{text-align:center;font-size:10px;font-weight:bold;margin:4px}
-
-#quiz,#missionWin,#finalWin{position:fixed;inset:0;z-index:20;background:#001b35dd;align-items:center;justify-content:center;padding:9px}
-#quizPanel{width:min(680px,95vw);max-height:88dvh}
-#question{font-size:clamp(17px,2.6vw,23px);font-weight:800;line-height:1.4;color:#123c60}
-#answers{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
-.answer{width:100%;min-height:48px;border-radius:12px;border:2px solid #a5dff2;background:#e5f7ff;color:#123e61;padding:10px;text-align:right}
-.m2panel,.m4panel{background:linear-gradient(145deg,#17245c,#07122f);color:white;border:2px solid #57eaff}
-.m2panel .answer,.m4panel .answer{background:#14285a;color:white;border-color:#77dfff}
-#feedback{font-weight:900;min-height:25px;margin-top:10px}
-#replay{font-weight:900}
-
-@media(max-width:650px){
- .panel{width:95vw;padding:11px}
- #answers{grid-template-columns:1fr}
- .missionCards{gap:7px}
- .missionCard{padding:9px 4px}
- .missionCard span{font-size:35px}
- header h1{font-size:clamp(17px,5vw,24px)}
+body {
+  background: radial-gradient(#273e61,#080d1b);
+  color:white;
+  font-family:Arial;
+  text-align:center;
+  overflow:hidden;
+  margin:0;
 }
-@media(max-height:700px){
- header{padding-top:4px}
- #game{height:calc(100dvh - 48px)}
- .panel{max-height:calc(100dvh - 58px);padding:9px}
- .missionCards{margin:7px 0}
- #track{min-height:100px}
- .controls button{height:40px}
+h1 {color:gold;margin-top:35px}
+#chest {
+  font-size:140px;
+  background:none;
+  border:0;
+  margin:50px 0 20px;
+  cursor:pointer;
+  touch-action:none;
+  user-select:none;
+}
+#chest:active {transform:scale(.9)}
+#count {font-size:35px;color:#00ff9d;font-weight:bold}
+#status {font-size:19px;padding:10px}
+#result {font-size:30px;color:gold;font-weight:bold}
+.money {
+  position:fixed;
+  left:50%;
+  top:45%;
+  font-size:35px;
+  pointer-events:none;
+  animation:fly 2.5s ease-out forwards;
+}
+@keyframes fly {
+  to {
+    transform:translate(var(--x),var(--y)) rotate(800deg);
+    opacity:0;
+  }
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-20px)}
+  50%{transform:translateX(20px)}
+  75%{transform:translateX(-15px)}
 }
 </style>
 </head>
-
 <body>
-<div id="app">
 
-<div id="world" class="m1">
-<div id="decoration" class="m1decor"></div>
-</div>
+<h1>💰 PETI RM1 JUTA 💰</h1>
+<h2>HADIAH RM1,000,000</h2>
 
-<button id="sound" onclick="toggleSound()">🔊 الصوت</button>
+<p>TEKAN DAN TAHAN PETI!</p>
+<p>Sambil sebut SUBHANALLAH 3 KALI</p>
 
-<header>
-<h1>❄️ تَحَدِّي الطِّفْلِ أَلْفَا 🚀</h1>
-<div id="subtitle">اصْطَدِمْ وَأَجِبْ • KP2027</div>
-</header>
+<button id="chest">🧰</button>
 
-<section id="startScreen">
-<div class="startBox">
-<h1>🚀 KP2027</h1>
-<h2>تَحَدِّي الطِّفْلِ أَلْفَا</h2>
-<p>هَلْ أَنْتَ مُسْتَعِدٌّ يَا بَطَلُ؟</p>
-<p>Adakah kamu bersedia, wahai pahlawan?</p>
-<button id="startButton" onclick="startApp()">▶ START GAME</button>
-<p>🌟 اِبْدَأْ رِحْلَتَكَ 🌟</p>
-</div>
-</section>
-
-<section id="menu" class="panel">
-<h2>🌟 أَهْلًا يَا بَطَلُ! 🌟</h2>
-<p>اِسْتَكْشِفْ أَرْبَعَ مَهَامٍّ وَأَظْهِرْ مَهَارَاتِكَ!</p>
-<div class="missionCards">
-<button class="missionCard" onclick="selectMission(1)">
-<span>❄️</span><b>المهمة 1</b><small>مُحِبٌّ لِلْخَيْرِ</small>
-</button>
-<button class="missionCard" id="mission2Card" onclick="selectMission(2)">
-<span>🚀</span><b>المهمة 2</b><small>صَابِرٌ وَثَابِتٌ</small>
-</button>
-<button class="missionCard" id="mission3Card" onclick="selectMission(3)">
-<span>🌊</span><b>المهمة 3</b><small>قَائِدٌ صَالِحٌ</small>
-</button>
-<button class="missionCard" id="mission4Card" onclick="selectMission(4)">
-<span>🏰</span><b>المهمة 4</b><small>مُوَاطِنٌ نَشِيطٌ</small>
-</button>
-</div>
-<p>💎 مجموع الجواهر: <b id="menuGems">0</b></p>
-<p>أَجِبْ عَنِ الْأَسْئِلَةِ لِإِكْمَالِ الْمَهَامِّ.</p>
-</section>
-
-<section id="characterSelect" class="panel">
-<h2 id="selectTitle">اخْتَرِ الْبَطَلَ</h2>
-<p id="selectDescription"></p>
-<div id="characterList"></div>
-<button class="primary" onclick="startGame()">اِبْدَأِ الْمَهَمَّةَ 🚀</button>
-<button class="secondary" onclick="backMenu()">الْعَوْدَةُ</button>
-</section>
-
-<section id="game">
-<div class="hud">
-<div class="badge" id="who">البطل: —</div>
-<div class="badge" id="gemBadge">💎 الجواهر: <span id="gems">0</span></div>
-<div class="badge">⭐ النقاط: <span id="score">0</span></div>
-<div class="badge">🏁 المهمة: <span id="mission">1</span></div>
-<div class="badge">📦 الأسئلة: <span id="progress">0/5</span></div>
-</div>
-<div id="track" class="m1track">
-<div id="player"></div>
-</div>
-<div class="controls">
-<button onclick="move(-1)">◀ يَسَار</button>
-<button onclick="move(1)">يَمِين ▶</button>
-</div>
-<div class="hint" id="hint">تَجَنَّبِ الْخَطَرَ وَاضْرِبْ صُنْدُوقَ السُّؤَالِ!</div>
-</section>
-
-<div id="quiz">
-<div class="panel" id="quizPanel">
-<h2 id="quizTitle">🌈 سُؤَالٌ ذَكِيٌّ</h2>
-<p id="question"></p>
-<button class="secondary" id="replay" onclick="readQuestion()">🔊 اِسْمَعِ السُّؤَالَ وَالْإِجَابَاتِ</button>
-<div id="answers"></div>
-<div id="feedback"></div>
-</div>
-</div>
-
-<div id="missionWin">
-<div class="panel">
-<h2 id="winTitle">🏆 نَجَحْتَ فِي الْمَهَمَّةِ!</h2>
-<p id="winMessage"></p>
-<p>💎 مجموع الجواهر: <b id="winGems">0</b></p>
-<button class="primary" id="nextButton" onclick="nextMission()">تَابِعْ ➜</button>
-<button class="secondary" onclick="backMenu()">القائمة الرئيسية</button>
-</div>
-</div>
-
-<div id="finalWin">
-<div class="panel">
-<h1>🏆 أَحْسَنْتَ يَا بَطَلَ KP2027!</h1>
-<h2>لَقَدْ أَكْمَلْتَ جَمِيعَ الْمَهَامِّ!</h2>
-<p>أَثْبَتَّ أَنَّكَ مُحِبٌّ وَرَحِيمٌ، وَصَابِرٌ وَثَابِتٌ، وَقَادِرٌ عَلَى الْقِيَادَةِ، وَمُوَاطِنٌ نَشِيطٌ!</p>
-<h2>💎 مجموع الجواهر: <span id="finalGems">0</span></h2>
-<button class="primary" onclick="backMenu()">الْعَوْدَةُ إِلَى الْقَائِمَةِ</button>
-</div>
-</div>
-
-</div>
+<div id="count">0 / 3</div>
+<p id="status">Tekan dan tahan peti untuk bermula!</p>
+<div id="result"></div>
 
 <script>
-"use strict";
+const Speech =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
 
-const GEM_KEY="kp2027Gems";
+let holding = false;
+let count = 0;
+let finished = false;
+let recognition;
+let active = false;
 
-let mission=1;
-let lane=2;
-let score=0;
-let gems=Number(localStorage.getItem(GEM_KEY)||0);
-let correctCount=0;
-let running=false;
-let paused=false;
-let objects=[];
-let spawn=0;
-let last=0;
-let raf=0;
-let soundOn=true;
-let audio=null;
-let currentQ=null;
-let answered=false;
-let musicTimer=null;
-let quizOpening=false;
-let musicIndex=0;
-let audioStarting=false;
+const chest = document.getElementById("chest");
+const status = document.getElementById("status");
+const counter = document.getElementById("count");
 
-const $=id=>document.getElementById(id);
-
-const missions={
-1:{
- title:"المهمة 1 • وادي الثلج القديم",
- value:"مُحِبٌّ وَرَحِيمٌ",
- description:"تجنب الحجر الأسود 🪨 واضرب حجر قوس قزح 🌈.",
- target:5,objectGood:"🌈",objectBad:"🪨",speed:2.6,spawnRate:48,
- outfit:"ملابس عادية",
- questions:[
- {q:"ماذا نفعل قبل أن نبدأ العمل؟",a:["نقرأ الدعاء","نسخر من صديقنا","نتشاجر","نضيع الوقت"],c:0},
- {q:"ماذا نفعل إذا رأينا القمامة؟",a:["نتركها","نضعها في سلة القمامة","نركلها","نخفيها"],c:1},
- {q:"إذا سقط صديقنا، ماذا نفعل؟",a:["نضحك عليه","نتركه","نساعده ونطلب المعلم","نصور فيديو"],c:2},
- {q:"أي عمل يدل على الأمانة؟",a:["الكذب","أخذ شيء ليس لنا","نفي بالوعد","نلوم غيرنا"],c:2},
- {q:"عند استخدام الإنترنت، يجب أن…",a:["نستخدمه بحكمة وحذر","نعطي كلمة السر","نصدق كل شيء","نلعب طوال اليوم"],c:0}
- ]
-},
-2:{
- title:"المهمة 2 • الفضاء",
- value:"صَابِرٌ وَثَابِتٌ",
- description:"تجنب القنبلة الفضائية 💣 واضرب صندوق الكنز 🎁.",
- target:5,objectGood:"🎁",objectBad:"💣",speed:3.0,spawnRate:45,
- outfit:"بَاجُو مَلَايُو + سَمْبِنْغ",
- questions:[
- {q:"ماذا يعني أن نكون صبورين وأقوياء؟",a:["لا نستسلم بسرعة","نستسلم بسرعة","نهرب من كل تحدٍّ"],c:0},
- {q:"إذا فشلنا في عمل، ماذا نفعل؟",a:["نتوقف عن المحاولة","نتعلم من الخطأ","نلوم الآخرين"],c:1},
- {q:"عند وجود تحدٍّ، نحتاج إلى…",a:["الشجاعة والاستمرار","الاستسلام","عدم التعلم"],c:0},
- {q:"إذا واجهنا مشكلة، ماذا نفعل؟",a:["نخاف","نبحث عن حل","نترك العمل"],c:1},
- {q:"ما صفة الشخص الصبور والقوي؟",a:["يستسلم بسرعة","يلوم الناس","يصبر عند الصعوبة"],c:2}
- ]
-},
-3:{
- title:"المهمة 3 • بحر القيادة",
- value:"قَادِرٌ عَلَى الْقِيَادَةِ",
- description:"تجنب القنبلة البحرية 💣 واضرب صندوق السؤال 📦.",
- target:5,objectGood:"📦",objectBad:"💣",speed:3.2,spawnRate:42,
- outfit:"جُبَّةٌ بَيْضَاءُ",
- questions:[
- {q:"ما صفة القائد الجيد؟",a:["يأمر فقط","مسؤول وعادل","يفكر في نفسه فقط"],c:1},
- {q:"إذا واجه صديق في الفريق مشكلة، ماذا يفعل القائد؟",a:["يتركه","يلومه","يساعده ويبحث عن حل"],c:2},
- {q:"كيف نأخذ قرارًا جيدًا؟",a:["نسمع رأي الفريق","نفعل ما نريد","لا نتكلم"],c:0},
- {q:"إذا أخطأ القائد، ماذا يفعل؟",a:["يخفي الخطأ","يعترف ويصلحه","يلوم شخصًا آخر"],c:1},
- {q:"كيف نقود الفريق؟",a:["نعمل معًا ونكون قدوة","نجبر الجميع","لا نسمعهم"],c:0}
- ]
-},
-4:{
- title:"المهمة 4 • عالم المواطن النشيط",
- value:"مُوَاطِنٌ نَشِيطٌ",
- description:"تجنب السيف ⚔️ واجمع صندوق الكنز 🧰.",
- target:5,objectGood:"🧰",objectBad:"⚔️",speed:3.4,spawnRate:40,
- outfit:"لِبَاسٌ سُنِّيٌّ كَامِلٌ",
- questions:[
- {q:"ماذا يعني المواطن النشيط؟",a:["يشارك في خدمة المجتمع","يفكر في نفسه فقط","لا يهتم بالناس"],c:0},
- {q:"ما العمل الذي يدل على حب الجيران؟",a:["نساعد الجار المحتاج","نسخر من الجار","نتجاهل الجار"],c:0},
- {q:"لماذا نحافظ على نظافة المكان العام؟",a:["ليكون المكان نظيفًا ومريحًا","ليعمل غيرنا","لنحصل على المدح فقط"],c:0},
- {q:"إذا رأينا قمامة في الحديقة، ماذا نفعل؟",a:["نرفعها ونضعها في السلة","نتركها","نزيد القمامة"],c:0},
- {q:"كيف نحترم الناس المختلفين عنا؟",a:["نحترم ثقافتهم ومعتقداتهم","نسخر من عاداتهم","نجبرهم أن يكونوا مثلنا"],c:0}
- ]
-}
-};
-
-/* حفظ الجواهر */
-function saveGems(){
- localStorage.setItem(GEM_KEY,String(gems));
-}
-
-function updateMenu(){
- gems=Number(localStorage.getItem(GEM_KEY)||0);
- $("menuGems").textContent=gems;
- $("mission2Card").disabled=localStorage.getItem("kp2027M1Done")!=="yes";
- $("mission3Card").disabled=localStorage.getItem("kp2027M2Done")!=="yes";
- $("mission4Card").disabled=localStorage.getItem("kp2027M3Done")!=="yes";
-}
-
-function hideAll(){
- ["startScreen","menu","characterSelect","game","quiz","missionWin","finalWin"]
- .forEach(id=>$(id).style.display="none");
-}
-
-/* ==========================
-   SISTEM AUDIO DIPERBAIKI
-   ========================== */
-
-/* Audio hanya dibuka melalui sentuhan pengguna */
-async function activateAudio(){
- try{
-  if(!audio){
-   const AudioClass=window.AudioContext||window.webkitAudioContext;
-   if(!AudioClass)return false;
-   audio=new AudioClass();
+function startVoice() {
+  if (!Speech) {
+    status.innerText = "Sila gunakan Google Chrome.";
+    return;
   }
 
-  if(audio.state==="suspended"){
-   await audio.resume();
+  if (active || finished) return;
+
+  recognition = new Speech();
+  recognition.lang = "ms-MY";
+  recognition.continuous = true;
+  recognition.interimResults = false;
+
+  recognition.onresult = function(e) {
+    if (!holding || finished) return;
+
+    for(let i=e.resultIndex;i<e.results.length;i++) {
+      if(e.results[i].isFinal) {
+        let words = e.results[i][0].transcript
+          .toLowerCase();
+
+        let matches = words.match(/subhanallah/g);
+
+        if(matches) {
+          for(let j=0;j<matches.length;j++) {
+            if(!holding || finished) break;
+
+            count++;
+            counter.innerText = count + " / 3";
+
+            status.innerText =
+              "Alhamdulillah! " + count + " kali!";
+
+            if(count >= 3) {
+              win();
+              return;
+            }
+          }
+        }
+      }
+    }
+  };
+
+  recognition.onerror = function() {
+    if(!finished) {
+      status.innerText =
+        "Pastikan mikrofon dibenarkan.";
+    }
+  };
+
+  recognition.onstart = function() {
+    active = true;
+  };
+
+  recognition.onend = function() {
+    active = false;
+
+    if(holding && !finished) {
+      try {
+        recognition.start();
+      } catch(e) {}
+    }
+  };
+
+  try {
+    recognition.start();
+  } catch(e) {
+    status.innerText = "Sila cuba lagi.";
   }
-
-  return audio.state==="running";
- }catch(e){
-  console.warn("Audio tidak dapat diaktifkan:",e);
-  return false;
- }
 }
 
-/* Bunyi permainan */
-function tone(freq=600,duration=.22,wave="sine",volume=.12){
- if(!soundOn||!audio||audio.state!=="running")return;
+chest.addEventListener("pointerdown", function(e) {
+  e.preventDefault();
 
- try{
-  const o=audio.createOscillator();
-  const g=audio.createGain();
+  if(finished) return;
 
-  o.type=wave;
-  o.frequency.setValueAtTime(freq,audio.currentTime);
+  holding = true;
+  chest.setPointerCapture(e.pointerId);
 
-  g.gain.setValueAtTime(.0001,audio.currentTime);
-  g.gain.exponentialRampToValueAtTime(volume,audio.currentTime+.025);
-  g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);
+  status.innerText =
+    "🎤 Terus tekan! Sebut SUBHANALLAH!";
 
-  o.connect(g);
-  g.connect(audio.destination);
-
-  o.start();
-  o.stop(audio.currentTime+duration+.04);
-  o.onended=()=>{o.disconnect();g.disconnect()};
- }catch(e){}
-}
-
-/* Melodi asal KP2027 */
-const melody=[
- 523.25,659.25,783.99,659.25,
- 587.33,698.46,880,783.99,
- 659.25,783.99,987.77,880,
- 698.46,783.99,880,659.25,
- 523.25,659.25,783.99,1046.5,
- 987.77,880,783.99,659.25,
- 587.33,698.46,880,698.46,
- 523.25,659.25,783.99,523.25
-];
-
-const bass=[130.81,164.81,196,164.81,146.83,174.61,196,146.83];
-
-function stopMusic(){
- if(musicTimer!==null){
-  clearInterval(musicTimer);
-  musicTimer=null;
- }
-}
-
-function startMusic(){
- stopMusic();
-
- if(!soundOn||!audio||audio.state!=="running")return;
-
- musicIndex=0;
-
- musicTimer=setInterval(()=>{
-  if(!soundOn||!audio||audio.state!=="running")return;
-
-  const menuVisible=$("menu").style.display==="block";
-  const characterVisible=$("characterSelect").style.display==="block";
-  const gameVisible=$("game").style.display==="flex";
-
-  if(!menuVisible&&!characterVisible&&!gameVisible)return;
-  if($("quiz").style.display==="flex")return;
-
-  const note=melody[musicIndex%melody.length];
-
-  tone(note,.32,"triangle",.065);
-
-  if(musicIndex%4===0){
-   tone(bass[Math.floor(musicIndex/4)%bass.length],.48,"sine",.045);
-  }
-
-  if(musicIndex%2===1){
-   tone(note*2,.13,"sine",.015);
-  }
-
-  musicIndex++;
- },390);
-}
-
-async function toggleSound(){
- soundOn=!soundOn;
-
- $("sound").textContent=soundOn?"🔊 الصوت":"🔇 صامت";
-
- if(!soundOn){
-  stopMusic();
- }else{
-  const ready=await activateAudio();
-  if(ready)startMusic();
- }
-}
-
-/* Masuk permainan */
-async function startApp(){
- const ready=await activateAudio();
-
- hideAll();
- $("menu").style.display="block";
- updateMenu();
-
- if(ready&&soundOn)startMusic();
-}
-
-/* Kembali ke menu */
-function backMenu(){
- stopGame();
- hideAll();
- $("menu").style.display="block";
- updateMenu();
-
- if(soundOn&&audio&&audio.state==="running")startMusic();
-}
-
-/* ==========================
-   DUNIA DAN MISI
-   ========================== */
-
-function setWorld(){
- $("world").className="m"+mission;
- $("decoration").className="m"+mission+"decor";
- $("subtitle").textContent=missions[mission].title+" • KP2027";
- $("track").className="m"+mission+"track";
- $("gemBadge").className=(mission===2||mission===4)?"badge m2badge":"badge";
-}
-
-function selectMission(n){
- if(n>1&&localStorage.getItem("kp2027M"+(n-1)+"Done")!=="yes"){
-  alert("أكمل المهمة "+(n-1)+" أولاً!");
-  return;
- }
-
- stopGame();
- mission=n;
- lane=2;
- setWorld();
- hideAll();
-
- $("characterSelect").style.display="block";
- $("selectTitle").textContent="بطل واحد • ملابس جديدة";
- $("selectDescription").textContent=missions[n].description;
-
- buildChoices();
-
- if(soundOn&&audio&&audio.state==="running")startMusic();
-}
-
-/* ==========================
-   WATAK ASAL
-   ========================== */
-
-function outfitSVG(stage){
- let robe="#f1c7a3";
- let hat="";
-
- if(stage===2)robe="#f6f0d6";
- if(stage===3)robe="#f7f2df";
-
- if(stage===4){
-  robe="#fffdf2";
-  hat='<path d="M44 24Q43 8 60 8Q77 8 76 24Q60 15 44 24Z" fill="#fff" stroke="#d7d7d7" stroke-width="2"/>';
- }
-
- return `<svg viewBox="0 0 120 110">
- ${hat}
- <circle cx="60" cy="30" r="13" fill="#b9784d" stroke="#5b3427" stroke-width="2"/>
- <circle cx="55" cy="28" r="2" fill="#111"/>
- <circle cx="65" cy="28" r="2" fill="#111"/>
- <path d="M54 35Q60 39 66 35" fill="none" stroke="#5b3427" stroke-width="2"/>
- <path d="M43 42Q60 35 77 42L82 94H38Z" fill="${robe}" stroke="#a08d6a" stroke-width="2"/>
- <path d="M44 48L31 68M76 48L89 68" stroke="${robe}" stroke-width="10" stroke-linecap="round"/>
- <path d="M47 94L47 101M73 94L73 101" stroke="#b9784d" stroke-width="7" stroke-linecap="round"/>
- <path d="M43 101L57 101M63 101L77 101" stroke="#5b3922" stroke-width="5" stroke-linecap="round"/>
- ${stage===2?'<path d="M43 58L77 52L79 74L41 74Z" fill="#8b5a35"/>':''}
- ${stage===4?'<path d="M45 51Q60 62 75 51L82 72Q60 82 38 72Z" fill="#d8c39a" stroke="#a98e5b" stroke-width="2"/>':''}
- </svg>`;
-}
-
-function buildChoices(){
- $("characterList").innerHTML=
- `<button class="character selected" onclick="chooseCharacter()">
- ${outfitSVG(mission)}
- <b>ولد مسلم</b>
- <div class="outfitName">${missions[mission].outfit}</div>
- <div class="upgrade">${mission===4?"🏆 أفضل لباس":"⬆️ لباس المهمة "+mission}</div>
- </button>`;
-}
-
-function chooseCharacter(){
- buildChoices();
-}
-
-function playerArt(){
- return outfitSVG(mission);
-}
-
-/* ==========================
-   MULAKAN MISI
-   ========================== */
-
-async function startGame(){
- const ready=await activateAudio();
-
- stopGame();
- hideAll();
-
- $("game").style.display="flex";
- setWorld();
-
- score=0;
- correctCount=0;
- lane=2;
- objects=[];
- spawn=0;
- quizOpening=false;
-
- gems=Number(localStorage.getItem(GEM_KEY)||0);
-
- $("who").textContent="البطل: ولد مسلم";
- $("hint").textContent=missions[mission].description;
-
- $("track").innerHTML='<div id="player"></div>';
- $("player").innerHTML=playerArt();
-
- updateHUD();
-
- running=true;
- paused=false;
- last=performance.now();
-
- if(ready&&soundOn)startMusic();
-
- raf=requestAnimationFrame(loop);
-}
-
-function updateHUD(){
- $("score").textContent=score;
- $("gems").textContent=gems;
- $("mission").textContent=mission;
- $("progress").textContent=correctCount+"/"+missions[mission].target;
- $("player").style.left=(lane*20+10)+"%";
-}
-
-function move(d){
- if(!running||paused)return;
- lane=Math.max(0,Math.min(4,lane+d));
- updateHUD();
-}
-
-document.addEventListener("keydown",e=>{
- if(e.key==="ArrowLeft"||e.key.toLowerCase()==="a")move(-1);
- if(e.key==="ArrowRight"||e.key.toLowerCase()==="d")move(1);
+  startVoice();
 });
 
-/* ==========================
-   OBJEK PERMAINAN
-   ========================== */
+function release() {
+  holding = false;
 
-function spawnObject(){
- let good=Math.random()<0.35;
-
- let el=document.createElement("div");
- el.className="object "+(good?"good":"bad");
-
- let symbol=good?missions[mission].objectGood:missions[mission].objectBad;
-
- el.innerHTML='<span class="object-icon">'+symbol+'</span><small class="object-label">'+(good?'سؤال':'خطر')+'</small>';
-
- let l=Math.floor(Math.random()*5);
- el.style.left=(l*20+10)+"%";
- el.style.top="-65px";
-
- $("track").appendChild(el);
- objects.push({el,l,y:-65,good,hit:false});
+  if(!finished) {
+    status.innerText =
+      "Jari dilepaskan! Tekan dan tahan semula.";
+  }
 }
 
-function loop(now){
- if(!running)return;
+chest.addEventListener("pointerup", release);
+chest.addEventListener("pointercancel", release);
 
- let dt=Math.min(2,(now-last)/16.67);
- last=now;
+function win() {
+  finished = true;
+  holding = false;
 
- if(!paused){
-  spawn+=dt;
-
-  if(spawn>missions[mission].spawnRate){
-   spawn=0;
-   spawnObject();
+  if(recognition) {
+    recognition.onend = null;
+    recognition.stop();
   }
 
-  for(let o of objects){
-   if(paused)break;
+  chest.innerText = "💥";
+  chest.style.animation = "shake .4s";
 
-   o.y+=missions[mission].speed*dt;
-   o.el.style.top=o.y+"px";
+  status.innerText = "PETI BERJAYA DIPECAHKAN!";
 
-   if(!o.hit&&o.l===lane&&
-      o.y>$("track").clientHeight-140&&
-      o.y<$("track").clientHeight-12){
+  document.getElementById("result").innerHTML =
+    "🎉 TAHNIAH! 🎉<br>RM1,000,000!";
 
-    o.hit=true;
-    o.el.remove();
+  for(let i=0;i<150;i++) {
+    let m = document.createElement("div");
+    m.className = "money";
+    m.innerText = Math.random() > .5 ? "💵" : "💰";
 
-    if(o.good){
-     openQuiz();
-     break;
-    }
+    m.style.setProperty("--x",
+      (Math.random()-.5)*1000+"px");
+    m.style.setProperty("--y",
+      (Math.random()-.5)*1000+"px");
 
-    score=Math.max(0,score-50);
-    updateHUD();
-    tone(130,.2,"square");
-   }
+    document.body.appendChild(m);
+    setTimeout(()=>m.remove(),3000);
   }
-
-  objects=objects.filter(o=>o.el.isConnected&&o.y<$("track").clientHeight+50);
- }
-
- raf=requestAnimationFrame(loop);
 }
-
-/* ==========================
-   SOALAN DAN SUARA ARAB
-   ========================== */
-
-function openQuiz(){
- if(quizOpening||paused)return;
-
- quizOpening=true;
- paused=true;
-
- let pool=missions[mission].questions;
- currentQ=pool[correctCount%pool.length];
- answered=false;
-
- $("quizTitle").textContent=missions[mission].title;
- $("question").textContent=currentQ.q;
- $("feedback").textContent="";
-
- $("answers").innerHTML=currentQ.a.map((a,i)=>
- `<button class="answer" onclick="answerQuestion(${i})">${String.fromCharCode(65+i)}. ${a}</button>`
- ).join("");
-
- $("quizPanel").className=(mission===2||mission===4)?"panel m2panel":"panel";
- $("quiz").style.display="flex";
-
- readQuestion();
-}
-
-/* Baca satu demi satu supaya suara tidak bertindih */
-function readQuestion(){
- if(!currentQ||!("speechSynthesis" in window))return;
-
- speechSynthesis.cancel();
-
- const voices=speechSynthesis.getVoices();
- const voice=voices.find(v=>/^ar(-|_)?sa/i.test(v.lang))||
-             voices.find(v=>/^ar/i.test(v.lang));
-
- const lines=[
-  "السؤال. "+currentQ.q,
-  "خيارات الإجابة."
- ];
-
- currentQ.a.forEach((a,i)=>{
-  lines.push("الخيار "+String.fromCharCode(65+i)+". "+a);
- });
-
- lines.push("اختر الإجابة الصحيحة.");
-
- let index=0;
-
- $("replay").textContent="🔊 جارٍ القراءة…";
-
- function speakNext(){
-  if(index>=lines.length){
-   $("replay").textContent="🔊 اسمع السؤال والإجابات";
-   return;
-  }
-
-  const msg=new SpeechSynthesisUtterance(lines[index]);
-
-  msg.lang=voice?voice.lang:"ar-SA";
-  if(voice)msg.voice=voice;
-
-  msg.rate=.82;
-  msg.pitch=1;
-  msg.volume=1;
-
-  msg.onend=()=>{
-   index++;
-   speakNext();
-  };
-
-  msg.onerror=()=>{
-   index++;
-   speakNext();
-  };
-
-  speechSynthesis.speak(msg);
- }
-
- speakNext();
-}
-
-/* ==========================
-   JAWAPAN
-   ========================== */
-
-function answerQuestion(i){
- if(answered||!currentQ)return;
-
- if(i===currentQ.c){
-  answered=true;
-
-  score+=500;
-  gems+=500;
-  correctCount++;
-
-  saveGems();
-  tone(880,.18,"sine",.15);
-  tone(1100,.2,"triangle",.08);
-
-  $("feedback").textContent="🎉 صحيح! +500 جوهرة!";
-  $("feedback").style.color="#16864c";
-
-  document.querySelectorAll("#answers button").forEach(b=>b.disabled=true);
-
-  updateHUD();
-
-  setTimeout(()=>{
-   $("quiz").style.display="none";
-
-   if("speechSynthesis" in window)speechSynthesis.cancel();
-
-   quizOpening=false;
-
-   if(correctCount>=missions[mission].target){
-    completeMission();
-   }else{
-    paused=false;
-
-    if(soundOn&&audio&&audio.state==="running")startMusic();
-   }
-  },1100);
-
- }else{
-  tone(180,.25,"sawtooth");
-  $("feedback").textContent="❌ ليس صحيحًا. حاول مرة أخرى.";
-  $("feedback").style.color="#c34b35";
- }
-}
-
-/* ==========================
-   MISI SELESAI
-   ========================== */
-
-function completeMission(){
- running=false;
- paused=false;
-
- cancelAnimationFrame(raf);
-
- if("speechSynthesis" in window)speechSynthesis.cancel();
-
- $("winGems").textContent=gems;
- $("missionWin").style.display="flex";
-
- $("winTitle").textContent="🏆 نجحت في المهمة "+mission+"!";
- $("winMessage").textContent="أحسنت! أكملت المهمة "+mission+" بنجاح.";
-
- localStorage.setItem("kp2027M"+mission+"Done","yes");
-
- if(mission<4){
-  $("nextButton").textContent="افتح المهمة "+(mission+1)+" ➜";
-  $("nextButton").style.display="inline-block";
- }else{
-  $("nextButton").style.display="none";
-
-  setTimeout(()=>{
-   $("missionWin").style.display="none";
-   $("finalGems").textContent=gems;
-   $("finalWin").style.display="flex";
-  },1500);
- }
-
- updateMenu();
-}
-
-function nextMission(){
- if(mission<4)selectMission(mission+1);
-}
-
-/* ==========================
-   BERHENTI
-   ========================== */
-
-function stopGame(){
- running=false;
- paused=false;
-
- cancelAnimationFrame(raf);
- stopMusic();
-
- objects.forEach(o=>o.el.remove());
- objects=[];
-
- quizOpening=false;
-
- if("speechSynthesis" in window)speechSynthesis.cancel();
-}
-
-/* ==========================
-   SUARA SISTEM
-   ========================== */
-
-if("speechSynthesis" in window){
- speechSynthesis.getVoices();
- speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
-}
-
-/* ==========================
-   PAPARAN AWAL
-   ========================== */
-
-updateMenu();
-hideAll();
-$("startScreen").style.display="flex";
-$("sound").style.display="block";
-
 </script>
 </body>
 </html>
